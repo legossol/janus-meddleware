@@ -1,0 +1,166 @@
+spring:
+  application:
+    name: skeleton
+  config:
+    import: properties/swagger/swagger.yml
+  mail:
+    banner-mode: console
+  devtools:
+    livereload:
+      enabled: true
+  date:
+    web:
+      pageable:
+        default-page-size: 10
+  servlet:
+    multipart:
+      enabled: true
+      max-request-size: 200MB
+      max-file-size: 200MB
+  output:
+    ansi:
+      enabled: always
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      write_dates_as_timestamps: false
+  task:
+    scheduling:
+      pool:
+        size: 1
+  gson:
+    date-time-format:
+      serialize: "yyyy-MM-dd HH:mm:ss"
+      deeserialize: "yyyy-MM-dd HH:mm:ss"
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        trace: false
+        web-allow-others: true
+  datasource:
+    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:~/test
+    url: jdbc:h2:mem:userdb;DB_CLOSE_DELAY=-1 # userdb 스키마에 mem인 메모리 데이터 베이스로 동작
+    username: sa
+    password:
+
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _history
+            modified_flag_suffix: _changed
+      hibernate:
+        format_sql: true
+  sql:
+    init:
+      encoding: UTF-8
+#  cloud:
+#    stream:
+#      default-binder:
+#      kafka:
+#        binder:
+#          brokers:
+#            - kafka1
+#            - kafka2
+#            - kafka3
+#      bindings:
+#        employee-in-0:
+#          binder: kafka
+#          destination: dev-employee-info
+#          content-type: application/json
+#          group: dev-employee-group
+#          consumer:
+#            concurrency: 2
+#            partitioned: true
+#     function:
+#       definition: sampleConsumer;parkingLotConsumer
+server:
+  port: 9001
+  http2:
+    enabled: true
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-response: true
+
+feign:
+  compression:
+    request:
+      enabled: false
+    response:
+      enabled: true
+  auth:
+    basic:
+      enabled: true
+      id: mstest
+      password: mstestauth
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 5000
+        loggerLevel: FULL
+  httpclient:
+    hc5:
+      enabled: true
+    connection-timeout: 2000
+    connection-timer-repeat: 50
+    ok-http:
+      read-timeout: 60
+
+logging:
+  level:
+    root: info
+    kr.co.iparking.marker: debug
+    # org.hibernate.type.descriptor.sql: TRACE
+#    com.zaxxer: DEBUG
+#    org.hibernate.SQL: INFO
+#    org.hibernate.type.descriptor.sql: INFO
+#    org.apache.http.impl.conn.PoolingHttpClientConnectionManager: INFO
+#    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: INFO
+#    io.netty.handler.logging.Logging.LoggingHandler: DEBUG
+#    com.netflix: WARN
+#    org.apache.http: INFO
+
+eureka:
+  client:
+    enabled: false
+    eureka:
+      instance:
+        statusPageUrlPath: ${server.servlet.context-path}/actuator/info
+        healthCheckUrlPath: ${server.servlet.context-path}/actuator/health
+        lease-renewal-interval-in-seconds: 5
+        lease-expiration-duration-in-seconds: 15
+      client:
+        enabled: false
+        registry-fetch-interval-seconds: 10
+        disable-delta: true
+        serviceUrl:
+          defaultZone: http://localhost:8500/eureka/, http://localhost:8501/eureka/
+      healthcheck:
+        enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+# custom cache config
+cache:
+  host: https://localhost
+  enable: true
+  cache-property-map:
+    sample:
+      time-to-live:
+        unit: minutes
+        time: 10

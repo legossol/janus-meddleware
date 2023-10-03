@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/employee?useSSL=false&autoReconnect=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 5
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+      properties:
+        org:
+          hibernate:
+            envers:
+              audit_table_suffix: _history
+              modified_flag_suffix: _changed
+        hibernate:
+          format_sql: true
+    sql:
+      init:
+        encoding: UTF-8
+hibernate:
+  dialect:
+    storage_engine: innodb
